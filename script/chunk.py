@@ -7,6 +7,7 @@ import glob
 import typing as t
 import uuid
 import pandas as pd
+import tiktoken
 
 def chunkit(input_: t.List[str], overlap: int = 3) -> t.List[str]:
     start_ = 0
@@ -60,6 +61,16 @@ if __name__ == "__main__":
 
     # create unique id for each chunk
     data["uuid"] = [str(uuid.uuid4()) for i in range(len(data))]
+
+    # count the number of tokens
+    print("-- count tokens")
+    encoding = tiktoken.get_encoding("cl100k_base")
+
+    data["token_count"] = data.text.apply(lambda txt: len(encoding.encode(txt)))
+
+    # check the max number of tokens in the dataset
+    print(f"max number of tokens: {max(data.token_count)}")
+    print(f"distribution of number of tokens: {data.token_count.describe()}")
 
     # save to json
     output_file_json = "./data/rag/eu_20240303.json"
