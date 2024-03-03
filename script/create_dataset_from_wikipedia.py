@@ -1,10 +1,9 @@
 '''
-Create simple dataset from wikipedia pages on EU
+Extracts pages from wikipedia and saves the content as text to ./data/sources
 
-requires wikipediaapi
-see https://github.com/goldsmith/Wikipedia
-install with
-pip install wikipedia
+Requires wikipedia see https://github.com/goldsmith/Wikipedia
+Install with
+> pip install wikipedia
 
 '''
 
@@ -14,6 +13,8 @@ if __name__ == "__main__":
 
     page_name = "Union européenne"
     output_file = "union_europeenne.txt"
+    page_name = "Parlement européen"
+    output_file = "parlement_europeen.txt"
 
     wikipedia.set_lang('fr')
     pg = wikipedia.page(page_name)
