@@ -1,0 +1,37 @@
+.vscode
+
+
+secrets.toml
+
+__init__.py
+
+.DS_store
+**/.DS_store
+__pycache__/
+**/__pycache__
+.coverage
+
+.ipynb_checkpoints
+
+.~lock.*
+~$*
+
+*.pyc
+
+*.pkl
+log/*.log
+
+# notes
+next.md
+todo.md
+doing.md
+
+# data
+*.csv
+*.pdf
+
+*.zip
+*.xml
+
+
+sandbox_googlestorage.py
