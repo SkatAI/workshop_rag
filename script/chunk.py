@@ -29,9 +29,9 @@ def chunkit(input_: t.List[str], window_size: int = 3, overlap: int = 1) -> t.Li
 def test_chunkit() -> None:
     # array of the alphabet
     input_ = [l for l in "abcdefghijklmnopqrstuvwxyz"]
-    output_ = chunkit(input_, window_size=5, overlap = 2)
+    output_ = chunkit(input_, window_size=5, overlap=2)
     assert len(output_) == 8
-    output_ = chunkit(input_, window_size=2, overlap = 1)
+    output_ = chunkit(input_, window_size=2, overlap=1)
     assert len(output_) == 25
 
 
@@ -79,4 +79,3 @@ if __name__ == "__main__":
         data.to_json(f, force_ascii=False, orient="records", indent=4)
 
     print(f"-- saved to {output_file_json}")
-
