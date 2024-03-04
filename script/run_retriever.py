@@ -14,16 +14,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--query", help="your query")
     parser.add_argument("--search_mode", help="either near_text (default), hybrid or bm25", default="near_text")
+    parser.add_argument("--response_count", help="Number of retrieved chunks", default=1)
     args = parser.parse_args()
     query = args.query
     search_mode = args.search_mode
-    # query = "Quelles sont les langues de travail dans l'Union européenne"
-    # search_mode = "hybrid"
-    # query = "Les langues de travail"
-    # search_mode = "bm25"
-
-    # return 2 documents
-    response_count = 2
+    response_count = int(args.response_count)
 
     # connect to weaviate and load collection
     client = connect_to_weaviate()
