@@ -14,7 +14,6 @@ import tiktoken
 # weaviate
 import weaviate
 import weaviate.classes as wvc
-from weaviate.classes import Filter
 
 
 if __name__ == "__main__":
@@ -37,9 +36,7 @@ if __name__ == "__main__":
     # check that the vector store is up and running
     if client.is_live() & client.is_ready():
         print(f"client is live and ready")
-    assert (
-        client.is_live() & client.is_ready()
-    ), "Weaviate client is not live or not ready"
+    assert client.is_live() & client.is_ready(), "Weaviate client is not live or not ready"
 
     # create schema
     properties = [
@@ -58,9 +55,7 @@ if __name__ == "__main__":
     ]
 
     # set vectorizer
-    vectorizer = wvc.Configure.Vectorizer.text2vec_openai(
-        vectorize_collection_name=False
-    )
+    vectorizer = wvc.Configure.Vectorizer.text2vec_openai(vectorize_collection_name=False)
 
     # create collection
     # 1st check if collection does not exist
@@ -76,9 +71,7 @@ if __name__ == "__main__":
     #     print(f"collection {collection_name} has been deleted")
 
     # now create the collection
-    collection = client.collections.create(
-        name=collection_name, vectorizer_config=vectorizer, properties=properties
-    )
+    collection = client.collections.create(name=collection_name, vectorizer_config=vectorizer, properties=properties)
 
     # reload the collection
     collection = client.collections.get(collection_name)
@@ -90,8 +83,10 @@ if __name__ == "__main__":
         raise "stopping"
 
     # finaly verify that the data has been inserted
-    # reload the collection
+    # reload the collection again
     collection = client.collections.get(collection_name)
 
     records_num = collection.aggregate.over_all(total_count=True).total_count
     print(f"collection {collection_name} now has {records_num} records")
+
+    client.close()

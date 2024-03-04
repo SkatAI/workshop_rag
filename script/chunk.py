@@ -1,5 +1,5 @@
 """
-Chunk the text over line returns with overlap parameters
+Chunk the text over line returns with overlap and window_size parameters
 saves content to a json format
 """
 
@@ -10,12 +10,13 @@ import pandas as pd
 import tiktoken
 
 
-def chunkit(input_: t.List[str], overlap: int = 3) -> t.List[str]:
+def chunkit(input_: t.List[str], window_size: int = 3, overlap: int = 1) -> t.List[str]:
+    assert overlap < window_size, f"overlap {overlap} needs to be smaller than window size {window_size}"
     start_ = 0
     chunks = []
-    while start_ + overlap < len(input_):
-        chunks.append(input_[start_ : start_ + overlap])
-        start_ = start_ + overlap
+    while start_ + window_size < len(input_):
+        chunks.append(input_[start_ : start_ + window_size])
+        start_ = start_ + window_size - overlap
     # add the remaining paragraphs
     if start_ < len(input_):
         chunks.append(input_[start_ - len(input_) :])
@@ -27,11 +28,11 @@ def chunkit(input_: t.List[str], overlap: int = 3) -> t.List[str]:
 
 def test_chunkit() -> None:
     # array of the alphabet
-    input = [l for l in "abcdefghijklmnopqrstuvwxyz"]
-    output = chunkit(input, overlap=5)
-    assert len(output) == int(len(input) / 5) + 1
-    output = chunkit(input, overlap=2)
-    assert len(output) == int(len(input) / 2)
+    input_ = [l for l in "abcdefghijklmnopqrstuvwxyz"]
+    output_ = chunkit(input_, window_size=5, overlap = 2)
+    assert len(output_) == 8
+    output_ = chunkit(input_, window_size=2, overlap = 1)
+    assert len(output_) == 25
 
 
 test_chunkit()
@@ -78,3 +79,4 @@ if __name__ == "__main__":
         data.to_json(f, force_ascii=False, orient="records", indent=4)
 
     print(f"-- saved to {output_file_json}")
+
