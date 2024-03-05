@@ -26,6 +26,7 @@ if __name__ == "__main__":
 
     # insert the data
     batch_result = collection.data.insert_many(data.to_dict(orient="records"))
+
     if batch_result.has_errors:
         print(batch_result.errors)
         raise "stopping"

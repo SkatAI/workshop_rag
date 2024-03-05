@@ -11,7 +11,9 @@ import tiktoken
 
 
 def chunkit(input_: t.List[str], window_size: int = 3, overlap: int = 1) -> t.List[str]:
-    assert overlap < window_size, f"overlap {overlap} needs to be smaller than window size {window_size}"
+    assert (
+        overlap < window_size
+    ), f"overlap {overlap} needs to be smaller than window size {window_size}"
     start_ = 0
     chunks = []
     while start_ + window_size < len(input_):

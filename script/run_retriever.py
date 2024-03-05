@@ -13,8 +13,10 @@ import argparse
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--query", help="your query")
-    parser.add_argument("--search_mode", help="either near_text (default), hybrid or bm25", default="near_text")
-    parser.add_argument("--response_count", help="Number of retrieved chunks", default=1)
+    parser.add_argument(
+        "--search_mode", help="either near_text (default), hybrid or bm25", default="near_text"
+    )
+    parser.add_argument("--response_count", help="Number of retrieved chunks", default=2)
     args = parser.parse_args()
     query = args.query
     search_mode = args.search_mode

@@ -36,7 +36,9 @@ if __name__ == "__main__":
     ]
 
     # set vectorizer
-    vectorizer = Configure.Vectorizer.text2vec_openai(vectorize_collection_name=False, model="text-embedding-3-small")
+    vectorizer = Configure.Vectorizer.text2vec_openai(
+        vectorize_collection_name=False, model="text-embedding-3-small"
+    )
 
     # create collection
     # 1st check if collection does not exist
@@ -50,7 +52,9 @@ if __name__ == "__main__":
         print(f"collection {collection_name} has been deleted")
 
     # now create the collection
-    collection = client.collections.create(name=collection_name, vectorizer_config=vectorizer, properties=properties)
+    collection = client.collections.create(
+        name=collection_name, vectorizer_config=vectorizer, properties=properties
+    )
 
     # check collection has been created
     all_existing_collections = client.collections.list_all().keys()

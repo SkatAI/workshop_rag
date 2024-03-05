@@ -8,16 +8,21 @@ Install with
 """
 
 import wikipedia
+import argparse
 
 if __name__ == "__main__":
-    page_name = "Union européenne"
-    output_file = "union_europeenne.txt"
-    page_name = "Parlement européen"
-    output_file = "parlement_europeen.txt"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--page_title", help="Wikipedia page title")
+    args = parser.parse_args()
+    page_title = args.page_title
+
+    output_file = page_title.replace(" ", "_").replace("'", "").lower() + ".txt"
 
     wikipedia.set_lang("fr")
-    pg = wikipedia.page(page_name)
+    pg = wikipedia.page(page_title)
 
     # save the content
     with open(f"./data/sources/{output_file}", "w") as f:
         f.write(pg.content)
+
+    print(f"content saved in ./data/sources/{output_file}")
