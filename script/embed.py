@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     if batch_result.has_errors:
         print(batch_result.errors)
-        raise "stopping"
+        raise RuntimeError("stopping")
 
     # finaly verify that the data has been inserted
     # reload the collection

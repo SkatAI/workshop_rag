@@ -1,10 +1,5 @@
 """
 """
-import pandas as pd
-
-# weaviate
-import weaviate
-
 # import weaviate.classes as wvc
 from weaviate.classes.config import Property, DataType, Configure
 
@@ -53,7 +48,9 @@ if __name__ == "__main__":
 
     # now create the collection
     collection = client.collections.create(
-        name=collection_name, vectorizer_config=vectorizer, properties=properties
+        name=collection_name,
+        vectorizer_config=vectorizer,
+        properties=properties,
     )
 
     # check collection has been created

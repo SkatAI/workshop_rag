@@ -1,12 +1,6 @@
 """
 Testing the different mode of retrieval from a given query
 """
-import os
-import pandas as pd
-import weaviate
-
-# import weaviate.classes as wvc
-
 from weaviate_utils import connect_to_weaviate
 import argparse
 
@@ -14,7 +8,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--query", help="your query")
     parser.add_argument(
-        "--search_mode", help="either near_text (default), hybrid or bm25", default="near_text"
+        "--search_mode",
+        help="either near_text (default), hybrid or bm25",
+        default="near_text",
     )
     parser.add_argument("--response_count", help="Number of retrieved chunks", default=2)
     args = parser.parse_args()
@@ -53,7 +49,10 @@ if __name__ == "__main__":
     for item in response.objects:
         print("--" * 20)
         print(item.properties.get("uuid"))
+        print()
         print(item.properties.get("text"))
+        print()
         print(f"metadata: {item.metadata.__dict__}")
+        print()
 
     client.close()

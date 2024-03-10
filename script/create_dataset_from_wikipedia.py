@@ -22,7 +22,7 @@ if __name__ == "__main__":
     pg = wikipedia.page(page_title)
 
     # save the content
-    with open(f"./data/sources/wikipedia/{output_file}", "w") as f:
+    with open(f"./data/sources/wikipedia/{output_file}", "w", encoding="utf-8") as f:
         f.write(pg.content)
 
     print(f"content saved in ./data/sources/wikipedia/{output_file}")

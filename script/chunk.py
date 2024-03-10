@@ -40,13 +40,13 @@ def test_chunkit() -> None:
 test_chunkit()
 
 if __name__ == "__main__":
-    source_path = "./data/sources/*.txt"
+    source_path = "./data/sources/wikipedia/*.txt"
     source_files = glob.glob(source_path)
 
-    chunks = []
+    allchunks = []
     for filename in source_files:
         print(f"-- loading {filename}")
-        with open(filename, "r") as f:
+        with open(filename, "r", encoding="utf-8") as f:
             txt = f.read()
 
         # split the text over line returns
@@ -55,12 +55,12 @@ if __name__ == "__main__":
         lines = [par.strip() for par in lines if len(par.strip()) > 1]
         chunked_version = chunkit(lines)
 
-        chunks += chunked_version
+        allchunks += chunked_version
 
-        print(f"extracted {len(chunked_version)} chunks")
+        print(f"extracted {len(chunked_version)} allchunks")
 
     # set as dataframe, to make it easier to add other info for each chunk and save it to json later on
-    data = pd.DataFrame(data=chunks, columns=["text"])
+    data = pd.DataFrame(data=allchunks, columns=["text"])
 
     # create unique id for each chunk
     data["uuid"] = [str(uuid.uuid4()) for i in range(len(data))]
