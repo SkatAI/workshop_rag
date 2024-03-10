@@ -1,14 +1,15 @@
 """
 """
 # import weaviate.classes as wvc
-from weaviate.classes.config import Property, DataType, Configure
+from weaviate.classes.config import Property, DataType, Configure, Reconfigure
+
 
 # utils
 from weaviate_utils import connect_to_weaviate
 
 if __name__ == "__main__":
     # collection_name must start with an Uppercase
-    collection_name = "Europe_20240303"
+    collection_name = "Europe_20240310"
     assert collection_name.capitalize() == collection_name
 
     # connect to weaviate
@@ -51,6 +52,19 @@ if __name__ == "__main__":
         name=collection_name,
         vectorizer_config=vectorizer,
         properties=properties,
+    )
+    # add stopwords
+    print("add French stopwords")
+    import nltk
+
+    nltk.download("stopwords")
+    from nltk.corpus import stopwords
+
+    collection.config.update(
+        # Note, use Reconfigure here (not Configure)
+        inverted_index_config=Reconfigure.inverted_index(
+            stopwords_additions=list(stopwords.words("french"))
+        )
     )
 
     # check collection has been created
