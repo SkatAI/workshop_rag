@@ -8,6 +8,7 @@ from langchain.chains import LLMChain
 
 from langchain.chains import SequentialChain
 
+
 class Generate(object):
     def __init__(self, model, temperature: float = 0.0) -> None:
         model = model
@@ -55,6 +56,7 @@ Ton texte:
     def generate_question_answer(self, context):
         response = overall_context_chain({"context": context})
         return response["question"], response["reponse"]
+
 
 if __name__ == "__main__":
     client = OpenAI()
