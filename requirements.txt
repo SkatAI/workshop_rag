@@ -8,7 +8,7 @@ langchain-openai==0.0.8
 langsmith==0.1.8
 matplotlib==3.7.2
 numpy==1.26.3
-openai==1.8.0
+openai==1.13.3
 pandas==2.1.4
 pydantic==2.5.2
 ragas==0.0.22
