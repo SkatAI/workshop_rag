@@ -5,6 +5,9 @@ Requires wikipedia see https://github.com/goldsmith/Wikipedia
 Install with
 > pip install wikipedia
 
+le notebook associé:
+https://colab.research.google.com/drive/18n9Dv9dZ0YW27n4Ggr8_0tpHV1XOtT0z#scrollTo=1qB4CikP37ra
+
 """
 
 import wikipedia
