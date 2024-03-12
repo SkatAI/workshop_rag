@@ -10,7 +10,7 @@ import pandas as pd
 import tiktoken
 
 
-def chunkit(input_: t.List[str], window_size: int = 3, overlap: int = 1) -> t.List[str]:
+def chunkit(input_: t.List[str], window_size: int = 12, overlap: int = 0) -> t.List[str]:
     assert (
         overlap < window_size
     ), f"overlap {overlap} needs to be smaller than window size {window_size}"
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     print(f"distribution of number of tokens: {data.token_count.describe()}")
 
     # save to json
-    output_file_json = "./data/rag/eu_20240303.json"
+    output_file_json = "./data/rag/eu_qa_chunks_20240311.json"
     with open(output_file_json, "w", encoding="utf-8") as f:
         data.to_json(f, force_ascii=False, orient="records", indent=4)
 

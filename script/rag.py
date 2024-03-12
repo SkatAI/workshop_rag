@@ -1,48 +1,38 @@
 import typing as t
 import argparse
+import os
 
 # LangChain / Langsmith
 from langchain_openai import ChatOpenAI
 from langchain.chains import LLMChain
 from langchain.chains import SequentialChain
 
-
 # local
 from prompts import Prompt
-from weaviate_utils import connect_to_weaviate
+
+import weaviate
 
 
-class Generate(object):
-    def __init__(self, model: str = "gpt-3.5-turbo-0125", temperature: float = 0.5) -> None:
-        self.model = model
-        self.temperature = temperature
-        llm = ChatOpenAI(model=model, temperature=temperature)
+def connect_to_weaviate() -> weaviate.client.WeaviateClient:
+    client = weaviate.connect_to_wcs(
+        cluster_url=os.environ["WEAVIATE_CLUSTER_URL"],
+        auth_credentials=weaviate.AuthApiKey(os.environ["WEAVIATE_KEY"]),
+        headers={
+            "X-OpenAI-Api-Key": os.environ["OPENAI_API_KEY"],
+        },
+    )
+    # check that the vector store is up and running
+    if client.is_live() & client.is_ready() & client.is_connected():
+        print("client is live, ready and connected ")
 
-        llm_chain = LLMChain(
-            llm=llm,
-            prompt=Prompt.prompt_generative_context,
-            output_key="answer",
-            verbose=True,
-        )
-
-        self.overall_context_chain = SequentialChain(
-            chains=[llm_chain],
-            input_variables=["context", "query"],
-            output_variables=["answer"],
-            verbose=True,
-        )
-        # outputs
-        self.answer = ""
-
-    def generate_answer(self, chunk_texts: t.List[str], query: str) -> str:
-        response_context = self.overall_context_chain(
-            {"context": "\n".join(chunk_texts), "query": query}
-        )
-        self.answer = response_context["answer"]
+    assert (
+        client.is_live() & client.is_ready()
+    ), "Weaviate client is not live or not ready or not connected"
+    return client
 
 
 class Retrieve(object):
-    collection_name = "europe_20240303"
+    collection_name = "Alexis_union_mars_2024_002"
 
     def __init__(self, query: str, search_params: t.Dict) -> None:
         self.client = connect_to_weaviate()
@@ -101,6 +91,35 @@ class Retrieve(object):
         self.search()
         self.get_context()
         self.close()
+
+
+class Generate(object):
+    def __init__(self, model: str = "gpt-3.5-turbo-0125", temperature: float = 0.5) -> None:
+        self.model = model
+        self.temperature = temperature
+        llm = ChatOpenAI(model=model, temperature=temperature)
+
+        llm_chain = LLMChain(
+            llm=llm,
+            prompt=Prompt.prompt_generative_context,
+            output_key="answer",
+            verbose=True,
+        )
+
+        self.overall_context_chain = SequentialChain(
+            chains=[llm_chain],
+            input_variables=["context", "query"],
+            output_variables=["answer"],
+            verbose=True,
+        )
+        # outputs
+        self.answer = ""
+
+    def generate_answer(self, chunk_texts: t.List[str], query: str) -> str:
+        response_context = self.overall_context_chain(
+            {"context": "\n".join(chunk_texts), "query": query}
+        )
+        self.answer = response_context["answer"]
 
 
 if __name__ == "__main__":

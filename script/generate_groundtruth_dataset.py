@@ -14,9 +14,8 @@ from prompts import Prompt
 
 class Generate(object):
     def __init__(self, model: str = "gpt-3.5-turbo-0125", temperature: float = 0.9) -> None:
-        model = model
-        temperature = temperature
         llm = ChatOpenAI(model=model, temperature=temperature)
+
         context_chain = LLMChain(
             llm=llm,
             prompt=Prompt.prompt_generate_groundtruth,
