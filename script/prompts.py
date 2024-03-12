@@ -2,6 +2,7 @@ from langchain.prompts import ChatPromptTemplate
 
 
 class Prompt(object):
+
     prompt_generate_groundtruth = ChatPromptTemplate.from_template(
         """
 Prends le rôle d'une journaliste, spécialiste de l'Union Européenne.
