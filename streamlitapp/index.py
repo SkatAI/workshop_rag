@@ -120,7 +120,7 @@ class Generate(object):
 
         llm_chain = LLMChain(
             llm=llm,
-            prompt=Prompt.prompt_generative_context,
+            prompt=prompt_generative_context,
             output_key="answer",
             verbose=True,
         )
@@ -142,7 +142,9 @@ class Generate(object):
 
 
 
-
+'''
+La partie Streamlit
+'''
 
 st.title('RAG workshop')
 
@@ -163,4 +165,23 @@ with st.form("search_form", clear_on_submit=False):
 if search_button:
     #  rajouter ici tous le process de la question
 
-    st.write(f"your query: {search_query}")
+    params = {
+        "search_mode": "hybrid",
+        "response_count": 2,
+        "model": "gpt-3.5-turbo-0125",
+        "temperature": 0.5,
+    }
+
+    ret = Retrieve(search_query, params)
+    ret.process()
+
+    gen = Generate()
+    gen.generate_answer(ret.chunk_texts, search_query)
+
+    st.write(search_query)
+    st.subheader("answer")
+    st.write(gen.answer)
+
+
+    st.subheader("les extraits - contexte")
+    st.write(ret.chunk_texts)
