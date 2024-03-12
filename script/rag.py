@@ -1,7 +1,7 @@
-import typing as t
 import argparse
-import os
 
+import os
+import typing as t
 # LangChain / Langsmith
 from langchain_openai import ChatOpenAI
 from langchain.chains import LLMChain
